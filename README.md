@@ -47,3 +47,10 @@ See also, a [ready-made application](https://github.com/heroku/python-getting-st
 - [Gunicorn](https://warehouse.python.org/project/gunicorn/)
 - [WhiteNoise](https://warehouse.python.org/project/whitenoise/)
 - [dj-database-url](https://warehouse.python.org/project/dj-database-url/)
+
+
+# Data Fields
+place: ['x', 'y', 'last_seen', 'state', 'probability_distro', 'probability_of_being_free', 'decay_function', 'visual_vector_features', 'probability_of_being_a_place'] <--> observation['x']['y']. 
+
+Chodzi mi o to że jest w relacji z każdą obserwacją z koordynatami x, y.
+
