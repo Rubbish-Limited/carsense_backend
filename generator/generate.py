@@ -8,14 +8,12 @@ from google.protobuf.json_format import MessageToDict
 from math import radians, pi
 import pygeotile.tile
 
-import proto.vector_tile_pb2
+import generator.proto.vector_tile_pb2
 
 req_codes = req.status_codes._codes
 
-WGS84 = pyproj.Proj(init='epsg:4326')
-EPSG3857 = pyproj.Proj(init='epsg:3857')
 
-API_KEY = open('.tomtomkey').read().strip()
+API_KEY = open('generator/.tomtomkey').read().strip()
 API_ROOT = 'api.tomtom.com'
 
 def latlon2tile(lat, lon, zoom):
@@ -75,15 +73,16 @@ if __name__ == '__main__':
     #xml(tomtom('parkingprobabilities/v1'))
     #xml(tomtom('search/2/additionalData.json', geometries=<geometryIds>[&geometriesZoom=<zoomLevel>]
     #pprint(json(tomtom('search/2/geocode/berlin.xml', countrySet='DE', limit='1')))
-    berlin = json(tomtom('search/2/search/berlin.json', limit=1, countrySet='DE'))
-    pprint(berlin)
+    # berlin = json(tomtom('search/2/search/berlin.json', limit=1, countrySet='DE'))
+    # pprint(berlin)
 
-    zoom = 7
-    coord = berlin['results'][0]['position']
-    x, y = coord2tile(coord, zoom)
-    print(coord, x, y)
+    # zoom = 7
+    # coord = berlin['results'][0]['position']
+    # x, y = coord2tile(coord, zoom)
+    # print(coord, x, y)
     #map = tomtom(f'map/1/tile/basic/main/{zoom}/{x}/{y}.pbf')
     #pprint(dir(val))
     #pprint(pbf(proto.vector_tile_pb2.Tile, map))
+    # print(init_state())
     print(init_state())
 

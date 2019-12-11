@@ -14,6 +14,12 @@ djangorestframework = "*"
 django-extensions = "*"
 django-filter = "*"
 sendgrid = "*"
+numpy = "*"
+pandas = "*"
+protobuf = "*"
+pyGeoTile = "*"
+xmltodict = "*"
+requests = "*"
 
 [dev-packages]
 pylint = "*"
