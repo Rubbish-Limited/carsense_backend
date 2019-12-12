@@ -54,3 +54,7 @@ place: ['x', 'y', 'last_seen', 'state', 'probability_distro', 'probability_of_be
 
 Chodzi mi o to że jest w relacji z każdą obserwacją z koordynatami x, y.
 
+# Endopints
+/heatmap
+[place] = [{x,y,last_seen,decay_function,prob_now}]
+
