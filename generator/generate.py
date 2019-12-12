@@ -1,10 +1,11 @@
+from sys import stderr, path
+path.append('.')
 import time
 import numpy as np
 import pandas as pd
 import requests as req
 import xmltodict
 from pprint import pprint
-from sys import stderr
 from google.protobuf.json_format import MessageToDict
 from math import radians, pi
 from numpy.random import beta, randint, uniform
@@ -104,11 +105,14 @@ def next_state(X):
     X = did_park(X, R.index)
     return X
 
+
 def did_park(X, indices):
     t = time.time()
     X.iloc[indices, COLS] = (True, 1, t, t)
     return X
 
+
 if __name__ == "__main__":
-    pass
+    S = init_state()
+    S.to_csv('res/parking.csv')
 

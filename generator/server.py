@@ -56,10 +56,11 @@ def map():
 
 @app.route('/geo', methods=['GET'])
 def geo():
-    data = state.to_dict(orient='list')
-    data['coords'] = list(zip(state.lat, state.lon))
-    data.pop('lat')
-    data.pop('lon')
+    #data = state.to_dict(orient='list')
+    coords = list(zip(state.lat, state.lon))
+    data = dict(type='FeatureCollection', features=[
+        dict(type='Feature', geometry=dict(type='MultiPoint', coordinates=coords))
+    ])
     return jsonify(data)
 
 @app.route('/observe', methods=['POST'])
