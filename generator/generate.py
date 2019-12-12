@@ -59,7 +59,7 @@ def tomtom(path, debug=True, **args):
     res = req.get(url)
     url_safe = tomtom_url(path, args)
     if debug:
-        print(f"GET {url}", file=stderr)
+        print(f"GET {url_safe}", file=stderr)
     if not res:
         code = str(res.status_code)
         if code in REQ_CODES:
@@ -70,12 +70,13 @@ def tomtom(path, debug=True, **args):
 
 
 COLS = []
-def init_state(count=100):
+def init_state():
     lat, lon = 52.52343, 13.41144 # berlin
-    X = pd.DataFrame()
-    X["lat"] = 0.3 * (beta(3, 3, size=count) - 0.5) + lat
-    X["lon"] = 0.6 * (beta(3, 3, size=count) - 0.5) + lon
-    X["decay"] = beta(3, 2, size=count)
+    X = pd.read_csv('res/berlin-parking.csv', index_col=0)
+    N = len(X)
+    #X["lat"] = 0.3 * (beta(3, 3, size=N) - 0.5) + lat
+    #X["lon"] = 0.6 * (beta(3, 3, size=N) - 0.5) + lon
+    X["decay"] = beta(3, 2, size=N)
     X.loc[X.decay < DECAY_LIMIT, 'decay'] = 0
     X["parked"] = X.decay >= DECAY_LIMIT
     X["last_seen"] = time.time()
@@ -109,24 +110,5 @@ def did_park(X, indices):
     return X
 
 if __name__ == "__main__":
-    # xml(tomtom('search/2/search/berline.xml'))
-    # xml(tomtom('parkingprobabilities/v1/nl/amsterdam/probabilities'))
-    # xml(tomtom('parkingprobabilities/v1'))
-    # xml(tomtom('search/2/additionalData.json', geometries=<geometryIds>[&geometriesZoom=<zoomLevel>]
-    # pprint(json(tomtom('search/2/geocode/berlin.xml', countrySet='DE', limit='1')))
-    berlin = json(tomtom('search/2/search/berlin.json', limit=1, countrySet='DE'))
-    # pprint(berlin)
-
-    zoom = 15
-    coord = berlin['results'][0]['position']
-    x, y = coord2tile(coord, zoom)
-    # print(coord, x, y)
-    map = tomtom(f'map/1/tile/basic/main/{zoom}/{x}/{y}.pbf')
-    vec = pbf(proto.vector_tile_pb2.Tile, map)
-    for layer in vec.layers:
-        if 'road' in layer.name.lower():
-            pprint(layer.name)
-            #pprint(layer)
-    # print(init_state())
-    #print(init_state())
+    pass
 

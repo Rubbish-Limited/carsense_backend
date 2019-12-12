@@ -17,7 +17,7 @@ UPDATE_RATE = 2 # Hz
 
 sem = threading.Lock()
 sem.acquire()
-state = init_state(count=1_000)
+state = init_state()
 sem.release()
 
 def log(*args):
@@ -54,6 +54,14 @@ def timer():
 def map():
     return jsonify(state.to_dict(orient='list'))
 
+@app.route('/geo', methods=['GET'])
+def geo():
+    data = state.to_dict(orient='list')
+    data['coords'] = list(zip(state.lat, state.lon))
+    data.pop('lat')
+    data.pop('lon')
+    return jsonify(data)
+
 @app.route('/observe', methods=['POST'])
 def update():
     if any(key not in request.args for key in ['lat', 'lon', 'parked']):
@@ -78,12 +86,8 @@ if __name__ == '__main__':
         exit(1)
 
     _, host, port = argv
-    #try:
     timer()
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True, host=host, port=int(port), threaded=True)
-    #except Exception as e:
-    #    log(traceback.print_tb(e.__traceback__))
-    #    exit(1)
 
